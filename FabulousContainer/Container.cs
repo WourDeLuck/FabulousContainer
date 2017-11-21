@@ -76,6 +76,12 @@ namespace FabulousContainer
             return res;
         }
 
+        /// <summary>
+        /// Resolves the type by creatring its instance (by a key).
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public T Resolve<T>(string key)
         {
             if(key == null || !_registeredObjectsKey.ContainsKey(key))
@@ -95,12 +101,6 @@ namespace FabulousContainer
         /// <returns>Instance of type.</returns>
         public object Resolve(Type resolve)
         {
-            var regObj = _registeredObjects[resolve];
-            if (regObj == null)
-            {
-                throw new KeyNotFoundException(string.Format("The type is not registered."));
-            }
-
             Type instance;
 
             // Check if key is used
@@ -117,6 +117,11 @@ namespace FabulousContainer
             return ResolveInstance(instance);
         }
 
+        /// <summary>
+        /// Gets an instance of the class by constructor and parameters.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private object ResolveInstance(Type type)
         {
             // Gets a constructor of the type
