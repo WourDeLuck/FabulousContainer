@@ -148,11 +148,12 @@ namespace FabulousContainer
                 .Where(c => c.GetParameters().All((o) => _registeredObjects.ContainsKey(o.ParameterType)))
                 .OrderByDescending(c => c.GetParameters().Count());
 
-            var constructor = constructors.FirstOrDefault();
+            var constructor = constructors.First();
 
             if (constructor == null)
             {
-                throw new InvalidOperationException("No public constructors were found for this type");
+                // Custom exception
+                throw new ConstructorNotFoundException("No public constructors were found for this type.");
             }
 
             return constructor;

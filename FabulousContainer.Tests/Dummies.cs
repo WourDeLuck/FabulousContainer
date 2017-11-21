@@ -54,9 +54,6 @@ namespace FabulousContainer.Tests
         public string Put { get; set; }
         public int Count { get; set; }
 
-        public Secondary()
-        { }
-
         public Secondary(int count)
         {
             Count = 1;
