@@ -40,4 +40,39 @@ namespace FabulousContainer.Tests
 
         }
     }
+
+    public interface IMain
+    {
+        string Name { get; set; }
+        string Put { get; set; }
+        int Count { get; set; }
+    }
+
+    public class Secondary : IMain
+    {
+        public string Name { get; set; }
+        public string Put { get; set; }
+        public int Count { get; set; }
+
+        public Secondary()
+        { }
+
+        public Secondary(int count)
+        {
+            Count = 1;
+        }
+
+        public Secondary(string name, int count)
+        {
+            Name = name;
+            Count = 2;
+        }
+
+        public Secondary(string name, string put, int count)
+        {
+            Name = name;
+            Put = put;
+            Count = 3;
+        }
+    }
 }

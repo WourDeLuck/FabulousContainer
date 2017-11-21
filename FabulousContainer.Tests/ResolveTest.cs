@@ -36,5 +36,17 @@ namespace FabulousContainer.Tests
             container.Register<ISomething, SomethingElse>();
             container.Resolve<ISomething>();
         }
+
+        [TestMethod]
+        public void Resolve_GetConstructorWithMaxParameters()
+        {
+            var container = new Container();
+
+            container.Register<IMain, Secondary>();
+            var result = container.Resolve<IMain>();
+
+            Assert.IsInstanceOfType(result, typeof(IMain));
+            //Assert.AreEqual(container.Resolve<IMain>().Count, 3);
+        }
     }
 }

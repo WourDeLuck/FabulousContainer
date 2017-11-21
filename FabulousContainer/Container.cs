@@ -84,7 +84,7 @@ namespace FabulousContainer
         /// <returns></returns>
         public T Resolve<T>(string key)
         {
-            if(key == null || !_registeredObjectsKey.ContainsKey(key))
+            if (key == null || !_registeredObjectsKey.ContainsKey(key))
             {
                 // Custom exception
                 throw new IncorrectKeyException(key);
@@ -128,7 +128,7 @@ namespace FabulousContainer
             var constructor = SelectConstructor(type);
             // Gets the parameters of the constructor
             var parameters = constructor.GetParameters()
-                .Select(parameter => Resolve(parameter.ParameterType))
+                .Select(parameter => ResolveInstance(parameter.ParameterType))
                 .ToArray();
 
             // Creates an instance of the type using parameters
@@ -143,14 +143,16 @@ namespace FabulousContainer
         /// <returns>Constructor of a type.</returns>
         private ConstructorInfo SelectConstructor(Type type)
         {
-            var constructor = type
+            var constructors = type
                 .GetConstructors()
-                .OrderByDescending(c => c.GetParameters().Length)
-                .Last();
+                .Where(c => c.GetParameters().All((o) => _registeredObjects.ContainsKey(o.ParameterType)))
+                .OrderByDescending(c => c.GetParameters().Count());
+
+            var constructor = constructors.FirstOrDefault();
 
             if (constructor == null)
             {
-                throw new InvalidOperationException("No public constructors where found for this type");
+                throw new InvalidOperationException("No public constructors were found for this type");
             }
 
             return constructor;
