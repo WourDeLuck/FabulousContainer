@@ -20,7 +20,7 @@ namespace FabulousContainer.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(TypeAlreadyExistsException))]
         public void Register_TryToRegisterSame()
         {
             var container = new Container();
@@ -30,7 +30,7 @@ namespace FabulousContainer.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(KeyAlreadyExistsException))]
         public void Register_RegisterWithSameKey()
         {
             var container = new Container();

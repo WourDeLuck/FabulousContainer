@@ -40,9 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\IncorrectKeyException.cs" />
+    <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Exceptions\TypeAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\TypeNotFoundException.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

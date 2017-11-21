@@ -23,7 +23,8 @@ namespace FabulousContainer
             // Checks if Dictionary contains the current type.
             if (_registeredObjects.ContainsKey(typeof(TResolve)))
             {
-                throw new ArgumentException(string.Format("The type {0} is already existing", typeof(TResolve)));
+                // Custom exception
+                throw new TypeAlreadyExistsException(typeof(TResolve));
             }
 
             // Checks if the second type implements the first one (interface or smth).
@@ -44,7 +45,8 @@ namespace FabulousContainer
             // Checks if the key exists in Dictionary
             if (_registeredObjectsKey.ContainsKey(key))
             {
-                throw new ArgumentException(string.Format("The key {0} has already been registered!", key));
+                //Custom exception
+                throw new KeyAlreadyExistsException("This key exists in the Dictionary already");
             }
 
             // Checks if the second type implements the first one (interface or smth).
@@ -61,14 +63,25 @@ namespace FabulousContainer
         /// <returns>Instance of type.</returns>
         public T Resolve<T>()
         {
-            return (T)Resolve(typeof(T));
+            // Exception handling
+            T res = default(T);
+            try
+            {
+                res = (T)Resolve(typeof(T));
+            }
+            catch (IncorrectKeyException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return res;
         }
 
         public T Resolve<T>(string key)
         {
             if(key == null || !_registeredObjectsKey.ContainsKey(key))
             {
-                throw new ArgumentNullException(string.Format("Current key is not correct."));
+                // Custom exception
+                throw new IncorrectKeyException(key);
             }
 
             _key = key;
@@ -82,8 +95,8 @@ namespace FabulousContainer
         /// <returns>Instance of type.</returns>
         public object Resolve(Type resolve)
         {
-            var regObj = _registeredObjects.FirstOrDefault(x => x.Key == resolve);
-            if (regObj.ToString() == null)
+            var regObj = _registeredObjects[resolve];
+            if (regObj == null)
             {
                 throw new KeyNotFoundException(string.Format("The type is not registered."));
             }
@@ -132,14 +145,10 @@ namespace FabulousContainer
 
             if (constructor == null)
             {
-                throw new InvalidOperationException("No constructor available for this type.");
+                throw new InvalidOperationException("No public constructors where found for this type");
             }
 
             return constructor;
         }
-
-     
-        
-
     }
 }

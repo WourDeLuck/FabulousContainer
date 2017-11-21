@@ -17,7 +17,7 @@ namespace FabulousContainer.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(IncorrectKeyException))]
         public void Resolve_IncorrectKey()
         {
             var container = new Container();
